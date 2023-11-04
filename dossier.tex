@@ -1,0 +1,215 @@
+\documentclass{article}
+\usepackage[left=1.5cm, right=2cm]{geometry}
+
+\usepackage{parskip}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{multicol}
+\usepackage{graphicx}
+
+% Default page styles
+\pagestyle{empty}
+\newgeometry{margin=10mm}
+\graphicspath{ {./images/} }
+\setlist[itemize]{leftmargin=2.5mm,rightmargin=0mm,itemsep=1mm,}
+
+\mdfdefinestyle{traitsboxstyle}{linewidth=0.5pt,topline=true,roundcorner=5pt,skipbelow=10pt,innertopmargin=5pt,frametitlerule=true,frametitlebackgroundcolor=discColorLight,linecolor=borderColor,skipabove=8mm}
+\mdfdefinestyle{discArchetypePill}{linewidth=0pt,roundcorner=5pt,backgroundcolor=discColor}
+
+% General Colors
+\definecolor{borderColor}{HTML}{aeaeae}
+
+% DISC Colors
+\definecolor{discD}{HTML}{db3c48}
+\definecolor{discDi}{HTML}{e5561f}
+\definecolor{discDI}{HTML}{f48119}
+\definecolor{discId}{HTML}{ffb727}
+\definecolor{discI}{HTML}{f7cf0d}
+\definecolor{discIs}{HTML}{d3e000}
+\definecolor{discIS}{HTML}{afd80a}
+\definecolor{discSi}{HTML}{88c100}
+\definecolor{discS}{HTML}{11b21b}
+\definecolor{discSc}{HTML}{51b48e}
+\definecolor{discSC}{HTML}{00b6bc}
+\definecolor{discCs}{HTML}{007fb6}
+\definecolor{discC}{HTML}{2f5fa5}
+\definecolor{discCd}{HTML}{6756b2}
+\definecolor{discCD}{HTML}{93359b}
+\definecolor{discDc}{HTML}{c62e85}
+
+\definecolor{discDLight}{HTML}{FFEEEE}
+\definecolor{discDiLight}{HTML}{FFF1E9}
+\definecolor{discDILight}{HTML}{FEF6F4}
+\definecolor{discIdLight}{HTML}{FFFCEB}
+\definecolor{discILight}{HTML}{FFF8E2}
+\definecolor{discIsLight}{HTML}{FFFDF1}
+\definecolor{discISLight}{HTML}{FFFEE6}
+\definecolor{discSiLight}{HTML}{FFFCE0}
+\definecolor{discSLight}{HTML}{F7FDF7}
+\definecolor{discScLight}{HTML}{F2FDF8}
+\definecolor{discSCLight}{HTML}{F0FDFE}
+\definecolor{discCsLight}{HTML}{E4F5FC}
+\definecolor{discCLight}{HTML}{D3E5F7}
+\definecolor{discCdLight}{HTML}{D8D7EB}
+\definecolor{discCDLight}{HTML}{E9DDEE}
+\definecolor{discDcLight}{HTML}{F6F7FA}
+
+% DISC Archetypes
+\newcommand{\discArchetypeDI}{Initiator}
+\newcommand{\discArchetypeDi}{Driver}
+\newcommand{\discArchetypeD}{Captain}
+\newcommand{\discArchetypeDc}{Architect}
+\newcommand{\discArchetypeCD}{Questioner}
+\newcommand{\discArchetypeCd}{Skeptic}
+\newcommand{\discArchetypeC}{Analyst}
+\newcommand{\discArchetypeCs}{Editor}
+\newcommand{\discArchetypeSC}{Stabilizer}
+\newcommand{\discArchetypeSc}{Planner}
+\newcommand{\discArchetypeS}{Supporter}
+\newcommand{\discArchetypeSi}{Counselor}
+\newcommand{\discArchetypeIS}{Harmonizer}
+\newcommand{\discArchetypeIs}{Encourager}
+\newcommand{\discArchetypeI}{Motivator}
+\newcommand{\discArchetypeId}{Influencer}
+
+% Contexts the data can be in
+\newenvironment{withDiscType}[1][]
+    { \def\discType{#1}%
+      \def\discArchetype{\csname discArchetype#1\endcsname}%
+      \colorlet{discColorLight}{disc#1Light}%
+      \colorlet{discColor}{disc#1}}
+    {}
+
+\newenvironment{bio}
+    {}
+    {}
+
+
+\newenvironment{traits}[1][]
+    {\begin{mdframed}[style=traitsboxstyle,frametitle=\color{discColor}{#1}]\begin{itemize}}
+    {\end{itemize}\end{mdframed}}
+
+% Bio commands
+
+\newcommand{\discPill}[2][rectangle,draw,fill=discColor,rounded corners]{%
+        \tikz[baseline=-0.6ex, every node/.style={inner xsep=20pt, inner ysep=7pt,outer sep=0}] \node [#1,rounded corners]{\color{white}\fontsize{24.88pt}{60}\selectfont{#2}};}%
+
+\newcommand{\name}[1]{#1}
+\newcommand{\profilephoto}[1]{
+  \begin{tikzpicture}%
+    \begin{scope}%%
+      \clip (0,0)  circle (2cm) ;
+      \node[anchor=center] at (0,0) {\includegraphics[width=4cm]{#1}};
+    \end{scope}%
+
+    \node[anchor=center] at (0,-20mm) {\discPill{\discArchetype}};
+  \end{tikzpicture}%
+  }
+\newcommand{\position}[1]{#1}
+\newcommand{\company}[1]{#1}
+\newcommand{\trait}[1]{\item{#1}}
+
+% Document
+\begin{document}
+\begin{withDiscType}[Cd]
+\begin{landscape}
+
+\begin{multicols}{2}
+  \begin{bio}
+    \profilephoto{yoni}
+    \name{Yoni Tserruya}
+    \position{Co-founder \& CEO}
+    \company{Lusha}
+  \end{bio}
+
+  \columnbreak
+    \begin{traits}[Behavior]
+    \trait{Separating facts from emotions when making decisions}
+    \trait{Preferring spending time alone}
+    \trait{Seeking evidence to support claims}
+    \trait{Reviewing all of the facts when processing a situation}
+    \end{traits}
+
+    \begin{traits}[Energizers]
+    \trait{Creating procedures}
+    \trait{Privacy}
+    \trait{Finding the best possible outcome}
+    \trait{Detailed evidence}
+    \end{traits}
+
+    \begin{traits}[Drainers]
+    \trait{Crowded, busy events}
+    \trait{When others do not follow through on promises}
+    \trait{Dealing with emotionally charged issues}
+    \trait{Chaotic situations}
+    \end{traits}
+
+    \begin{traits}[Strengths]
+    \trait{Solving problems without being swayed by emotion}
+    \trait{Directing others with precision}
+    \trait{Effectively gathering information}
+    \trait{Building impactful, effective systems}
+    \end{traits}
+\end{multicols}
+
+\pagebreak
+
+\begin{traits}[Blind Spots]
+\trait{May become stressed by frequent collaboration}
+\trait{May resist people who do not use a systematic approach to organizing work}
+\trait{May have a hard time seeing the big picture}
+\trait{May make premature judgements or critiques}
+\end{traits}
+
+
+\begin{traits}[Make a great first impression with Yoni]
+\trait{Discuss the cost breakdown}
+\trait{Ask simple "yes or no" questions}
+\trait{Ask them what problem they are trying to solve}
+\trait{Be honest and direct about what you're offering}
+\end{traits}
+
+
+\begin{traits}[Building trust]
+\trait{Back up your thoughts with clear data}
+\trait{Set clear expectations for the conversation}
+\trait{Trust that they will follow specific verbal instructions}
+\trait{Share your qualifications or expertise}
+\end{traits}
+
+\begin{traits}[Product demo]
+\trait{As you describe a feature, go deeper into how it works rather than just sharing what it does}
+\trait{Avoid glossing over important details in your presentation}
+\trait{Ask questions early on to try to understand what part of the product they are most interested in}
+\trait{Expect to dive deep into certain areas and answer very specific questions}
+\end{traits}
+
+\begin{traits}[Negotiating]
+\trait{Speak with precision}
+\trait{Do your research beforehand}
+\trait{Give them plenty of information}
+\trait{Avoid taking their questions personally}
+\end{traits}
+
+\begin{traits}[Pricing]
+\trait{Provide full item lists and breakdowns}
+\trait{Demonstrate the logic behind your pricing}
+\trait{Outline all the extra details like terms and conditions}
+\trait{Be fully transparent about your benefits and limitations}
+\end{traits}
+
+\begin{traits}[How to drive Yoni to take action]
+\trait{Minimize the number of people involved in the meeting}
+\trait{Allow them to propose a time}
+\trait{Explain what the meeting will help them learn}
+\trait{Ask them to propose the agenda}
+\end{traits}
+
+\end{landscape}
+\end{withDiscType}
+\end{document}
