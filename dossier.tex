@@ -1,5 +1,5 @@
 \documentclass{article}
-\usepackage[left=1.5cm, right=2cm]{geometry}
+\usepackage[left=0mm, right=0mm, top=0mm, bottom=0mm]{geometry}
 
 \usepackage{parskip}
 \usepackage{url}
@@ -11,18 +11,33 @@
 \usepackage{xcolor}
 \usepackage{multicol}
 \usepackage{graphicx}
+\usepackage{vwcol}
+\usepackage[default]{lato}
+\usepackage[T1]{fontenc}
+\usepackage{background}
+\usepackage{setspace}
+\usetikzlibrary{backgrounds,calc}
+\usetikzlibrary{shadows.blur}
+\usetikzlibrary{shapes.symbols}
 
 % Default page styles
 \pagestyle{empty}
-\newgeometry{margin=10mm}
+\newgeometry{margin=0mm}
 \graphicspath{ {./images/} }
-\setlist[itemize]{leftmargin=2.5mm,rightmargin=0mm,itemsep=1mm,}
+\setlist[itemize]{leftmargin=2.5mm,rightmargin=0mm,itemsep=2mm,}
 
-\mdfdefinestyle{traitsboxstyle}{linewidth=0.5pt,topline=true,roundcorner=5pt,skipbelow=10pt,innertopmargin=5pt,frametitlerule=true,frametitlebackgroundcolor=discColorLight,linecolor=borderColor,skipabove=8mm}
+\mdfdefinestyle{traitsboxstyle}{linewidth=0.5pt,topline=true,roundcorner=5pt,innertopmargin=5pt,innerbottommargin=5mm,frametitlerule=true,frametitlebackgroundcolor=discColor,linecolor=borderColor,skipabove=5mm}
 \mdfdefinestyle{discArchetypePill}{linewidth=0pt,roundcorner=5pt,backgroundcolor=discColor}
 
 % General Colors
 \definecolor{borderColor}{HTML}{aeaeae}
+\definecolor{lightGray}{HTML}{dedede}
+\definecolor{uiGray}{HTML}{667085}
+\definecolor{uiLightGray}{HTML}{98a2b3}
+\definecolor{uiDarkGray}{HTML}{344054}
+\definecolor{crystalBlue}{HTML}{2ba6e3}
+\definecolor{cadmium}{HTML}{097969}
+\definecolor{burgundy}{HTML}{800020}
 
 % DISC Colors
 \definecolor{discD}{HTML}{db3c48}
@@ -82,24 +97,39 @@
     { \def\discType{#1}%
       \def\discArchetype{\csname discArchetype#1\endcsname}%
       \colorlet{discColorLight}{disc#1Light}%
-      \colorlet{discColor}{disc#1}}
+      \colorlet{discColor}{disc#1}%
+      \pagecolor{uiDarkGray}
+    }
     {}
 
 \newenvironment{bio}
-    {}
-    {}
+  {\centering}
+  {}
 
+\newenvironment{qualities}
+  {\centering}
+  {}
 
 \newenvironment{traits}[1][]
-    {\begin{mdframed}[style=traitsboxstyle,frametitle=\color{discColor}{#1}]\begin{itemize}}
+    {\begin{mdframed}[style=traitsboxstyle,frametitle=\textcolor{white}{#1},align=center]\begin{itemize}\setstretch{1.1}\vspace{1mm}}
     {\end{itemize}\end{mdframed}}
 
-% Bio commands
-
 \newcommand{\discPill}[2][rectangle,draw,fill=discColor,rounded corners]{%
-        \tikz[baseline=-0.6ex, every node/.style={inner xsep=20pt, inner ysep=7pt,outer sep=0}] \node [#1,rounded corners]{\color{white}\fontsize{24.88pt}{60}\selectfont{#2}};}%
+  \tikz[baseline=-0.6ex, every node/.style={inner xsep=15pt, color=discColor, inner ysep=7pt,outer sep=0,blur shadow={shadow blur steps=5,shadow blur extra rounding=1.3pt,shadow scale=0.9}}] \node [#1,rounded corners=5mm]{\color{white}\LARGE{#2}};}%
 
-\newcommand{\name}[1]{#1}
+
+\newcommand{\qualityPill}[2][rectangle,draw,fill=discColor,rounded corners]{%
+  \tikz[baseline=0ex, every node/.style={inner xsep=2mm, color=discColor, inner ysep=3mm,outer sep=0,blur shadow={shadow blur steps=5,shadow blur extra rounding=1.3pt,shadow scale=0.9}}] \node [#1,rounded corners=2mm]{\color{white}\large{#2}};}%
+
+\newcommand{\name}[1]{\LARGE{#1}\normalsize}
+
+
+\newcommand{\logo}{
+  \begin{tikzpicture}%
+    \node[anchor=center] at (0,0) {\includegraphics[width=4cm]{crystal_logo}};
+  \end{tikzpicture}%
+  }
+
 \newcommand{\profilephoto}[1]{
   \begin{tikzpicture}%
     \begin{scope}%%
@@ -107,108 +137,153 @@
       \node[anchor=center] at (0,0) {\includegraphics[width=4cm]{#1}};
     \end{scope}%
 
-    \node[anchor=center] at (0,-20mm) {\discPill{\discArchetype}};
+    \node[anchor=center] at (0,-22mm) {\discPill{\discArchetype}};
   \end{tikzpicture}%
   }
-\newcommand{\position}[1]{#1}
-\newcommand{\company}[1]{#1}
+\newcommand{\position}[1]{\large{#1}\normalsize}
+\newcommand{\company}[1]{\large{#1}\normalsize}
+\newcommand{\overview}[1]{\parbox{7.5cm}{\setstretch{1.25}\centering #1}}
 \newcommand{\trait}[1]{\item{#1}}
+\newcommand{\quality}[1]{%
+\begin{tikzpicture}%
+  \node[anchor=center] at (0,0mm) {\qualityPill{#1}};
+\end{tikzpicture}%
+}
+
+
+\backgroundsetup{
+   scale=1,
+   angle=0,
+   opacity=1,
+   color=black,
+   contents={\begin{tikzpicture}[remember picture, overlay]
+      \node [,rotate=90,anchor=east] at ([xshift=-1cm,yshift=-1cm] current page.north east)
+            {\includegraphics[width = 3cm]{crystal_logo_white}}; %
+     \end{tikzpicture}}
+ }
 
 % Document
 \begin{document}
+
 \begin{withDiscType}[Cd]
 \begin{landscape}
 
-\begin{multicols}{2}
-  \begin{bio}
-    \profilephoto{yoni}
-    \name{Yoni Tserruya}
-    \position{Co-founder \& CEO}
-    \company{Lusha}
-  \end{bio}
+\fcolorbox{uiGray}{uiGray}{%
+  \phantom{t} % FIXME: Fixes margin on colorbox
+  \begin{minipage}[t][14cm][t]{.4\textwidth}%
+    \color{white}
+    \centering
+    \begin{bio}
+      \vspace{2mm}
+      \name{Yoni Tserruya}
+      \vspace{2mm}
 
-  \columnbreak
-    \begin{traits}[Behavior]
-    \trait{Separating facts from emotions when making decisions}
-    \trait{Preferring spending time alone}
-    \trait{Seeking evidence to support claims}
-    \trait{Reviewing all of the facts when processing a situation}
-    \end{traits}
+      \profilephoto{yoni}
+      \vspace{2mm}
 
-    \begin{traits}[Energizers]
-    \trait{Creating procedures}
-    \trait{Privacy}
-    \trait{Finding the best possible outcome}
-    \trait{Detailed evidence}
-    \end{traits}
+      \textbf{\position{Co-Founder \& CEO}}
+      \vspace{2mm}
+      
+      \company{Lusha}
+      \vspace{5mm}
+      
+      \begin{qualities}
+        \quality{Skeptical}%
+        \quality{Strong-Willed}%
+        \quality{Deliberate}
+      \end{qualities}
+      \vspace{5mm}
 
-    \begin{traits}[Drainers]
-    \trait{Crowded, busy events}
-    \trait{When others do not follow through on promises}
-    \trait{Dealing with emotionally charged issues}
-    \trait{Chaotic situations}
-    \end{traits}
+      \begin{mdframed}[roundcorner=10pt,backgroundcolor=uiDarkGray,linecolor=uiDarkGray,align=center,alignment=center,leftmargin=2mm,rightmargin=2mm,innerbottommargin=5mm,innertopmargin=5mm]
+        \color{white}
+        \overview{%
+          Yoni tends to be an \textbf{objective thinker} who prioritizes \textbf{accuracy and results}.
 
-    \begin{traits}[Strengths]
-    \trait{Solving problems without being swayed by emotion}
-    \trait{Directing others with precision}
-    \trait{Effectively gathering information}
-    \trait{Building impactful, effective systems}
+          \vspace{3mm}
+
+          They will likely pay attention to small details and take a systematic approach to solving problems.%
+        }
+      \end{mdframed}
+    \end{bio}%
+    \hspace{20mm}%
+    \vspace{20mm}
+  \end{minipage}%
+  \phantom{t} % FIXME: Fixes margin on colorbox
+}%
+\vrule%
+\fcolorbox{uiLightGray}{uiLightGray}{%
+  \phantom{t} % FIXME: Fixes margin on colorbox
+  \begin{minipage}[t][14cm][t]{17.9cm}
+    \centering
+    \vspace{1mm}
+    \begin{traits}[How to drive Yoni to take action]
+    \trait{Minimize the number of people involved in the meeting}
+    \trait{Allow them to propose a time}
+    \trait{Explain what the meeting will help them learn}
+    \trait{Ask them to propose the agenda}
     \end{traits}
-\end{multicols}
+    
+    
+    \begin{traits}[Make a great first impression with Yoni]
+    \trait{Discuss the cost breakdown}
+    \trait{Ask simple "yes or no" questions}
+    \trait{Ask them what problem they are trying to solve}
+    \trait{Be honest and direct about what you're offering}
+    \end{traits}
+    
+    \begin{traits}[Product demo]
+    \trait{As you describe a feature, go deeper into how it works rather than just sharing what it does}
+    \trait{Avoid glossing over important details in your presentation}
+    \trait{Ask questions early on to try to understand what part of the product they are most interested in}
+    \trait{Expect to dive deep into certain areas and answer very specific questions}
+    \end{traits}
+    \vspace{10mm}
+  \end{minipage}
+  \phantom{t} % FIXME: Fixes margin on colorbox
+}
+
+\color{white}
+
+\begin{minipage}{16cm}
+  \vspace{5mm}%
+  \hspace{5mm}%
+  \begin{minipage}{7.5cm}
+  \begin{mdframed}[frametitle=\textcolor{white}{Do},align=center,backgroundcolor=white,linewidth=0mm,frametitlebackgroundcolor=cadmium,roundcorner=5pt,innertopmargin=5mm,innerbottommargin=5mm,innerleftmargin=5mm,innerrightmargin=5mm]
+    \color{black}
+    \begin{itemize}\setstretch{1.5}
+    \item{Use specific, blunt language, as they learn best through \textbf{direct communication}}
+    \item{Bring up potential issues upfront, rather than dancing around them}
+    \end{itemize}
+  \end{mdframed}
+  \end{minipage}%
+  \hspace{10mm}%
+  \begin{minipage}{7.5cm}
+  \begin{mdframed}[frametitle=\textcolor{white}{Don't},align=center,backgroundcolor=white,linewidth=0mm,frametitlebackgroundcolor=burgundy,roundcorner=5pt,innertopmargin=5mm,innerbottommargin=5mm,innerleftmargin=5mm,innerrightmargin=5mm]
+    \color{black}
+    \begin{itemize}\setstretch{1.5}
+    \item{Don't gloss over \textbf{logistical issues} or \textbf{potential objections}}
+    \item{Don't prioritize smalltalk; focus on information specific to the topic or product}
+    \end{itemize}
+  \end{mdframed}
+  \end{minipage}%
+\end{minipage}%
+\hspace{20mm}%
+\begin{minipage}{8cm}
+  \vspace{8mm}%
+
+  \color{white}
+  \large
+  \parbox{8cm}{
+    \setstretch{1.3}
+    \textit{I’m a big believer in product-led growth, powered by the forces of simplicity and people.}
+  }
+
+  \vspace{5mm}
+
+  \textbf{- Yoni Tserruya}
+\end{minipage}
 
 \pagebreak
-
-\begin{traits}[Blind Spots]
-\trait{May become stressed by frequent collaboration}
-\trait{May resist people who do not use a systematic approach to organizing work}
-\trait{May have a hard time seeing the big picture}
-\trait{May make premature judgements or critiques}
-\end{traits}
-
-
-\begin{traits}[Make a great first impression with Yoni]
-\trait{Discuss the cost breakdown}
-\trait{Ask simple "yes or no" questions}
-\trait{Ask them what problem they are trying to solve}
-\trait{Be honest and direct about what you're offering}
-\end{traits}
-
-
-\begin{traits}[Building trust]
-\trait{Back up your thoughts with clear data}
-\trait{Set clear expectations for the conversation}
-\trait{Trust that they will follow specific verbal instructions}
-\trait{Share your qualifications or expertise}
-\end{traits}
-
-\begin{traits}[Product demo]
-\trait{As you describe a feature, go deeper into how it works rather than just sharing what it does}
-\trait{Avoid glossing over important details in your presentation}
-\trait{Ask questions early on to try to understand what part of the product they are most interested in}
-\trait{Expect to dive deep into certain areas and answer very specific questions}
-\end{traits}
-
-\begin{traits}[Negotiating]
-\trait{Speak with precision}
-\trait{Do your research beforehand}
-\trait{Give them plenty of information}
-\trait{Avoid taking their questions personally}
-\end{traits}
-
-\begin{traits}[Pricing]
-\trait{Provide full item lists and breakdowns}
-\trait{Demonstrate the logic behind your pricing}
-\trait{Outline all the extra details like terms and conditions}
-\trait{Be fully transparent about your benefits and limitations}
-\end{traits}
-
-\begin{traits}[How to drive Yoni to take action]
-\trait{Minimize the number of people involved in the meeting}
-\trait{Allow them to propose a time}
-\trait{Explain what the meeting will help them learn}
-\trait{Ask them to propose the agenda}
-\end{traits}
 
 \end{landscape}
 \end{withDiscType}
